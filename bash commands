@@ -1,0 +1,15 @@
+Bash commands:
+man - checar documentación
+ps - checar procesos
+uptime - carga media de uso del sistema
+top - uso cpu de cada procesos
+time tty
+time tilix, etc....
+vmstat -f
+vmstat -d
+w
+mpstat muestra el uso de todos los procesadores
+mpstat -p 1 muestra el uso del procesador 1
+gnome-system-monitor
+vim es un editor de textos de UBUNTU
+subl es para ejecutar sublime text
