@@ -59,7 +59,7 @@ def _generar_padre(geneSet,objetivo):
 
 def _mutar(padre, geneSet, objetivo):
     '''
-    Función de mutación que reemplaza la mitad de genes de la contraseña
+    Función de mutación que reemplaza un octavo de genes del cromosoma padre
     ---------------------------------------------------------
     :param padre Cromosoma: Cromosoma padre
     :param geneSet str: Carácteres disponibles
@@ -67,12 +67,16 @@ def _mutar(padre, geneSet, objetivo):
     :returns Cromosoma: Cromosoma de la mutación del padre
     '''
     genesDelNiño = padre.Genes[:]
-    idxs = random.sample(range(len(padre.Genes)),int(len(genesDelNiño)/2))
+    idxs = random.sample(range(len(genesDelNiño)),int(len(genesDelNiño)/10))
      #Alterno es un carácter de emergencia por si resulta que
         #la mutación es el mismo gen
     for idx in idxs:
         nuevoGen, alterno = random.sample(geneSet, 2)
-        genesDelNiño[idx] = alterno if nuevoGen == genesDelNiño[idx] else nuevoGen
+        genCorrecto = genesDelNiño[idx]==objetivo[idx]
+        if nuevoGen == genesDelNiño[idx] and not genCorrecto:
+            genesDelNiño[idx] = alterno
+        elif not genCorrecto:
+            genesDelNiño[idx] = nuevoGen
     aptitud = obtener_aptitud(genesDelNiño,objetivo)
     return Cromosoma(genesDelNiño, aptitud)
 
@@ -817,7 +821,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
     start = time.process_time()
     print('Secuencial:')
     iteracion_generaciones(geneSet,poblacion,objetivo,iteraciones,
-                           pmutar=0.8,pelite=0.5)
+                           pmutar=0.6,pelite=0.65)
     end_secuencial = (time.process_time()-start)
     finish.value = True
     usage_secuencial= q.get()
@@ -833,7 +837,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
         cpu_process_concurrente.start()
         start_concurrente = time.process_time()
         iteracion_generaciones_concurrente(geneSet,poblacion,objetivo,iteraciones,
-                                           pmutar=0.8,pelite=0.5)
+                                           pmutar=0.6,pelite=0.65)
         end_concurrente1 = (time.process_time()- start_concurrente)
         finish.value = True
         cpu_process_concurrente.join()
@@ -848,7 +852,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
         cpu_process_concurrente2.start()
         start_concurrente2 = time.process_time()
         iteracion_generaciones_concurrente2(geneSet,poblacion,objetivo,iteraciones,
-                                           pmutar=0.8,pelite=0.5)
+                                           pmutar=0.6,pelite=0.65)
         end_concurrente2 = (time.process_time()- start_concurrente2)
         finish.value = True
         cpu_process_concurrente2.join()
@@ -862,7 +866,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
     cpu_process_pool.start()
     start_pool = time.process_time()
     iteracion_generaciones_pool(geneSet,poblacion,objetivo,iteraciones,
-                                    pmutar=0.8,pelite=0.5)
+                                    pmutar=0.6,pelite=0.65)
     end_pool = (time.process_time()- start_pool)
     finish.value = True
     usage_pool= q.get()
@@ -912,8 +916,8 @@ def plot_cpu(objetivo,poblacion,iteraciones,concurrente1=True,concurrente2=True)
 
 if __name__ == '__main__':
     objetivo = open('Lorem ipsum')
-    objetivo = objetivo.read()[:500]
+    objetivo = objetivo.read()
     #usage = comparacion(objetivo,iteraciones=200)
-    plot_cpu(objetivo,8,500,concurrente1=True)
-    plot_cpu(objetivo,50,500,concurrente1=True)
-    plot_cpu(objetivo,5000,500,concurrente1=False)
+    plot_cpu(objetivo,8,50,concurrente1=True)
+    plot_cpu(objetivo,50,50,concurrente1=True)
+    plot_cpu(objetivo,500,50,concurrente1=False)
