@@ -915,7 +915,7 @@ def plot_cpu(objetivo,poblacion,iteraciones,concurrente1=True,concurrente2=True)
 
 
 if __name__ == '__main__':
-    '''
+
     archivo = open('Lorem ipsum')
     objetivo = archivo.read()[:1000]
     archivo.close()
@@ -927,19 +927,18 @@ if __name__ == '__main__':
     plot_cpu(objetivo,20,500,concurrente1=True)
     plot_cpu(objetivo,200,500,concurrente1=False)
     plot_cpu(objetivo,500,500,concurrente1=False)
-    plot_cpu(objetivo,1000,500,concurrente1=False)
-    '''
+    #plot_cpu(objetivo,1000,500,concurrente1=False)
+
     archivo = open('Lorem ipsum')
     objetivo = archivo.read()
     archivo.close()
-    '''
+
     print('#'*50)
     print('Comparación con el texto completo de longitud {}'.format(len(objetivo)))
     print('#'*50)
 
     plot_cpu(objetivo,8,500,concurrente1=True)
     plot_cpu(objetivo,20,500,concurrente1=True)
-    '''
     plot_cpu(objetivo,200,500,concurrente1=False)
-    plot_cpu(objetivo,500,500,concurrente1=False)
-    plot_cpu(objetivo,1000,500,concurrente1=False)
+    #plot_cpu(objetivo,500,500,concurrente1=False)
+    #plot_cpu(objetivo,1000,500,concurrente1=False)
