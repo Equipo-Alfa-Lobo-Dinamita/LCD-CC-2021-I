@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+from math import inf
 import psutil
 import os
 import matplotlib.pyplot as plt
@@ -828,7 +828,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
     cpu_process_secuencial.join()
     usages.append((usage_secuencial,'Secuencial'))
 
-    end_concurrente1 = 'No aplica'
+    end_concurrente1 = inf
 
     if concurrente1:
         print('Concurrente1:')
@@ -844,7 +844,7 @@ def comparacion(objetivo,poblacion=mp.cpu_count(), iteraciones=500,
         usage_concurrente= q.get()
         usages.append((usage_concurrente,'Concurrente1'))
 
-    end_concurrente2 = 'No aplica'
+    end_concurrente2 = inf
     if concurrente2:
         print('Concurrente2:')
         finish.value = False
@@ -915,9 +915,31 @@ def plot_cpu(objetivo,poblacion,iteraciones,concurrente1=True,concurrente2=True)
 
 
 if __name__ == '__main__':
-    objetivo = open('Lorem ipsum')
-    objetivo = objetivo.read()
+    '''
+    archivo = open('Lorem ipsum')
+    objetivo = archivo.read()[:1000]
+    archivo.close()
+    print('#'*50)
+    print('Comparación con el texto parcial de longitud {}'.format(len(objetivo)))
+    print('#'*50)
     #usage = comparacion(objetivo,iteraciones=200)
-    plot_cpu(objetivo,8,50,concurrente1=True)
-    plot_cpu(objetivo,50,50,concurrente1=True)
-    plot_cpu(objetivo,500,50,concurrente1=False)
+    plot_cpu(objetivo,8,500,concurrente1=True)
+    plot_cpu(objetivo,20,500,concurrente1=True)
+    plot_cpu(objetivo,200,500,concurrente1=False)
+    plot_cpu(objetivo,500,500,concurrente1=False)
+    plot_cpu(objetivo,1000,500,concurrente1=False)
+    '''
+    archivo = open('Lorem ipsum')
+    objetivo = archivo.read()
+    archivo.close()
+    '''
+    print('#'*50)
+    print('Comparación con el texto completo de longitud {}'.format(len(objetivo)))
+    print('#'*50)
+
+    plot_cpu(objetivo,8,500,concurrente1=True)
+    plot_cpu(objetivo,20,500,concurrente1=True)
+    '''
+    plot_cpu(objetivo,200,500,concurrente1=False)
+    plot_cpu(objetivo,500,500,concurrente1=False)
+    plot_cpu(objetivo,1000,500,concurrente1=False)
